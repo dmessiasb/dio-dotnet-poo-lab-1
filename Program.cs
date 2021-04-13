@@ -52,7 +52,11 @@ namespace DIO.Bank
 
         private static void ListaContas()
         {
-            throw new NotImplementedException();
+           for(int i=0; i < listContas.Count; i++){
+            Conta conta = listContas[i];
+            Console.Write("#{0}- ", i);
+            Console.WriteLine(conta);
+           }
         }
 
         private static void InserirConta()
