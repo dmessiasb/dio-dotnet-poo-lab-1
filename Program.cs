@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.Threading;
 namespace DIO.Bank
 {
     class Program
@@ -30,6 +30,9 @@ namespace DIO.Bank
                     case "5":
                         Depositar();
                         break;
+                    case "L":
+                        Limpar();
+                        break;
                     default:
                         Console.WriteLine("Opcao é inválida! Comece novamente!");
                     break;
@@ -38,6 +41,16 @@ namespace DIO.Bank
             }
         }
 
+        private static void Limpar()
+        {
+            
+            Console.WriteLine("Carregando...");                        
+            Thread.Sleep(3000);
+            Console.Clear(); 
+                      
+        }
+
+        
         private static void Transferir()
         {
             ListarContas();
@@ -46,12 +59,26 @@ namespace DIO.Bank
             int indiceContaOrigem  = int.Parse(Console.ReadLine());
 
             Console.WriteLine("Digite o valor para Depósito:");
-            int valorTransferencia  = int.Parse(Console.ReadLine());
+            double valorTransferencia  = double.Parse(Console.ReadLine());
 
             Console.WriteLine("Digite o número da conta Destino:");
             int indiceContaDestino = int.Parse(Console.ReadLine());
 
-            listContas[indiceContaOrigem].Transferir(valorTransferencia, listContas[indiceContaDestino]);            
+            if (indiceContaDestino != indiceContaOrigem)
+            {
+                listContas[indiceContaOrigem].Transferir(valorTransferencia, listContas[indiceContaDestino]);                            
+            }else
+            {
+                Limpar();
+                Console.WriteLine();
+                Console.WriteLine("xxxxxxxxxxxxxxxxxxxxxxxx ATENÇÃO xxxxxxxxxxxxxxxxxxxxxxxx");
+                Console.WriteLine("Você não pode transfêrir um valor para a mesma conta!! Tente novamente!");
+                Console.WriteLine();
+                Console.WriteLine();
+
+                Transferir();
+            }
+
         }
 
         private static void Depositar()
@@ -103,6 +130,7 @@ namespace DIO.Bank
 
         private static void ListarContas()
         {
+            Limpar();
            Console.WriteLine("CONTAS DISPONÍVEIS");
            Console.WriteLine("######################################################################################");
            for(int i=0; i < listContas.Count; i++){
